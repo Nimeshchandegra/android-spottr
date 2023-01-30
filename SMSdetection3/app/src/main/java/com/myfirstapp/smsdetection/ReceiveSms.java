@@ -28,12 +28,15 @@ import com.google.android.gms.location.Priority;
 
 public class ReceiveSms extends BroadcastReceiver {
     FusedLocationProviderClient fusedLocationProviderClient;
+    SmsManager mySmsManager = SmsManager.getDefault();
     final String password = "pass";
 
 
     @Override
     public void onReceive(Context context, @NonNull Intent intent) {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
+
+
         Bundle b = intent.getExtras();
         if (intent.getAction().equalsIgnoreCase("android.provider.Telephony.SMS_RECEIVED")) {
             Toast.makeText(context, "SmsReceived!", Toast.LENGTH_SHORT).show();
@@ -48,7 +51,6 @@ public class ReceiveSms extends BroadcastReceiver {
                     String senderNum = messages[i].getOriginatingAddress();
                     String message = messages[i].getMessageBody();//
                     String[] messagess = message.split(" ");
-                    //setlocation(senderNum,context);
                     if (messagess[0].equalsIgnoreCase("myhelper")&&messagess[1].equalsIgnoreCase(password)) {
 
                         SmsManager mySmsManager = SmsManager.getDefault();
@@ -103,13 +105,12 @@ public class ReceiveSms extends BroadcastReceiver {
             fusedLocationProviderClient.getLastLocation().addOnCompleteListener(task -> {
                 Location location = task.getResult();
                 if (location != null) {
-                    cordinates[0] = String.valueOf(location.getLatitude());
-                    cordinates[1] = String.valueOf(location.getLongitude());
-                    String messages = "latitude = " + cordinates[0] + " longitude = " + cordinates[1] + "1";
 
-                    Toast.makeText(context, messages, Toast.LENGTH_SHORT).show();
-                    SmsManager mySmsManager = SmsManager.getDefault();
-                    mySmsManager.sendTextMessage(phno, null, messages, null, null);
+
+                    Toast.makeText(context," null 7", Toast.LENGTH_SHORT).show();
+
+                    mySmsManager.sendTextMessage(phno, null, "latitude = " + location.getLatitude() + " longitude = " + location.getLongitude() + "1", null, null);
+                    Toast.makeText(context," null 8", Toast.LENGTH_SHORT).show();
 
                 } else {
                     Toast.makeText(context, "null4", Toast.LENGTH_SHORT).show();
@@ -121,7 +122,7 @@ public class ReceiveSms extends BroadcastReceiver {
                         public void onLocationResult(@NonNull LocationResult locationResult) {
                             Location location1 = locationResult.getLastLocation();
 
-                            assert location1 != null;
+
                             cordinates[0] = String.valueOf(location1.getLatitude());
                             cordinates[1] = String.valueOf(location1.getLongitude());
                             String messages = "latitude = " + cordinates[0] + " longitude = " + cordinates[1] + "2";
