@@ -7,13 +7,14 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="237dp"
         android:layout_height="90dp"
         android:text="Enter your password"
+        android:textAlignment="center"
+        android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="30dp"
-        android:textAlignment="center"
         app:layout_constraintHorizontal_bias="0.442"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,9 +24,13 @@
         android:id="@+id/editTextTextPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="86dp"
+        android:layout_marginTop="46dp"
+        android:layout_marginEnd="115dp"
         android:ems="10"
         android:inputType="textPassword"
-        tools:layout_editor_absoluteX="86dp"
-        tools:layout_editor_absoluteY="352dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

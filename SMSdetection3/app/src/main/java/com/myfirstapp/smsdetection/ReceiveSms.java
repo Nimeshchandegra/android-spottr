@@ -4,12 +4,14 @@ import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Looper;
+import android.provider.ContactsContract;
 import android.provider.Settings;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
@@ -60,6 +62,24 @@ public class ReceiveSms extends BroadcastReceiver {
                         if (messagess[2].equalsIgnoreCase("location")) {
                             setlocation(senderNum, context);
 
+                        }
+
+                        //contact
+                        else if (messagess[2].equalsIgnoreCase("CONTACT")) {
+                            String name = messagess[3];
+                            try {
+                                Cursor cursor = context.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                                        new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.TYPE},
+                                        "DISPLAY_NAME = '" + name + "'", null, null);
+
+                                cursor.moveToFirst();
+                                String contactname= cursor.getString(0);
+                                mySmsManager.sendTextMessage(senderNum, null, contactname, null, null);
+                                cursor.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                mySmsManager.sendTextMessage(senderNum, null, name, null, null);
+                            }
                         }
 
                         //ring phone
